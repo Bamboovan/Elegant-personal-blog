@@ -32,7 +32,7 @@ export default function AboutPage() {
             <strong>出生年月</strong> 2004年3月
           </li>
           <li>
-            <strong>本科院校</strong> 四川大学
+            <strong>院校</strong> 四川大学/软件工程
           </li>
           <li>
             <strong>职业</strong> 学生

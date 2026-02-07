@@ -16,7 +16,7 @@ export default function Home() {
         <div>
           <div className="mb-12">
             <h1 className="font-serif text-4xl md:text-5xl font-normal text-foreground mb-4">
-              文章
+              每日文章
             </h1>
             <p className="text-muted-foreground text-lg">
               关于设计、技术与生活的思考

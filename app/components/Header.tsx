@@ -10,7 +10,7 @@ export function Header() {
             href="/" 
             className="font-serif text-xl tracking-tight text-foreground hover:text-accent transition-colors"
           >
-            Blog
+            ZF's Blog
           </Link>
           
           <div className="flex items-center gap-8">
