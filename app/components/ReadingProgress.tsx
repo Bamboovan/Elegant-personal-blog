@@ -1,0 +1,30 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
+export function ReadingProgress() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const updateProgress = () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = window.scrollY;
+      const progress = scrollHeight > 0 ? (scrolled / scrollHeight) * 100 : 0;
+      setProgress(progress);
+    };
+
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+
+    return () => window.removeEventListener("scroll", updateProgress);
+  }, []);
+
+  return (
+    <div className="reading-progress">
+      <div 
+        className="reading-progress-bar" 
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+  );
+}

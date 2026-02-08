@@ -4,6 +4,8 @@ import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import { getPostBySlug, getPostHtml, getAllPosts } from "@/lib/posts";
 import Link from "next/link";
+import { Calendar, Clock } from "lucide-react";
+import { DecorativeDivider } from "@/app/components/DecorativeDivider";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -39,6 +41,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// 为第一个段落添加 drop-cap 类
+function addDropCap(html: string): string {
+  // 找到第一个 <p> 标签并添加 drop-cap 类
+  return html.replace(/<p>/, '<p class="drop-cap">');
+}
+
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
@@ -47,19 +55,26 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
-  const contentHtml = await getPostHtml(post);
+  const rawHtml = await getPostHtml(post);
+  const contentHtml = addDropCap(rawHtml);
 
   return (
-    <article className="max-w-3xl mx-auto px-6 py-16">
+    <article className="max-w-3xl mx-auto px-6 py-16 animate-fade-in-up">
       <header className="mb-12">
-        <div className="flex items-center gap-3 text-sm text-muted-foreground mb-6">
-          <time dateTime={post.date}>
-            {format(new Date(post.date), "yyyy年M月d日", { locale: zhCN })}
-          </time>
+        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
+          <div className="flex items-center gap-1.5">
+            <Calendar className="w-3.5 h-3.5 opacity-60" />
+            <time dateTime={post.date}>
+              {format(new Date(post.date), "yyyy年M月d日", { locale: zhCN })}
+            </time>
+          </div>
           {post.readingTime && (
             <>
               <span className="text-border">·</span>
-              <span>{post.readingTime} 分钟阅读</span>
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 opacity-60" />
+                <span>{post.readingTime} 分钟阅读</span>
+              </div>
             </>
           )}
         </div>
@@ -74,7 +89,7 @@ export default async function PostPage({ params }: Props) {
               <Link
                 key={tag}
                 href={`/tags/${tag}`}
-                className="text-sm px-3 py-1 bg-muted text-muted-foreground rounded hover:bg-accent hover:text-accent-foreground transition-colors"
+                className="tag-elegant"
               >
                 {tag}
               </Link>
@@ -83,17 +98,22 @@ export default async function PostPage({ params }: Props) {
         )}
       </header>
 
+      <DecorativeDivider symbol="waves" className="mb-12" />
+
       <div 
         className="prose max-w-none"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
 
-      <footer className="mt-16 pt-8 border-t border-border">
+      <DecorativeDivider symbol="flourish" className="mt-16 mb-8" />
+
+      <footer className="flex items-center justify-between">
         <Link 
           href="/"
-          className="text-muted-foreground hover:text-foreground transition-colors"
+          className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
         >
-          ← 返回文章列表
+          <span>←</span>
+          <span>返回文章列表</span>
         </Link>
       </footer>
     </article>

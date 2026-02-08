@@ -1,5 +1,7 @@
 import { PostCard } from "./components/PostCard";
 import { getAllPosts } from "@/lib/posts";
+import { DecorativeDivider } from "./components/DecorativeDivider";
+import { PenLine } from "lucide-react";
 
 export default function Home() {
   const posts = getAllPosts();
@@ -7,13 +9,14 @@ export default function Home() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-16">
       {posts.length === 0 ? (
-        <div className="text-center py-24">
+        <div className="text-center py-24 animate-fade-in-up">
+          <PenLine className="w-12 h-12 mx-auto mb-4 text-muted-foreground/40" />
           <p className="text-muted-foreground text-lg">
             还没有文章，开始写第一篇吧
           </p>
         </div>
       ) : (
-        <div>
+        <div className="animate-fade-in-up">
           <div className="mb-12">
             <h1 className="font-serif text-4xl md:text-5xl font-normal text-foreground mb-4">
               每日文章
@@ -24,8 +27,10 @@ export default function Home() {
           </div>
           
           <div className="divide-y divide-border">
-            {posts.map((post) => (
-              <PostCard key={post.slug} post={post} />
+            {posts.map((post, index) => (
+              <div key={post.slug} className={`stagger-${Math.min(index + 1, 5)}`}>
+                <PostCard post={post} />
+              </div>
             ))}
           </div>
         </div>
