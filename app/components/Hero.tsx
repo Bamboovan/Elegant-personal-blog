@@ -31,21 +31,7 @@ export function Hero() {
 
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center px-6 py-24 overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient orbs */}
-        <div className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-500/20 blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-gradient-to-br from-pink-500/10 to-rose-500/10 blur-3xl" />
-        
-        {/* Grid pattern */}
-        <div className="absolute inset-0 grid-pattern opacity-50" />
-        
-        {/* Floating elements */}
-        <div className="absolute top-20 right-[15%] w-4 h-4 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 opacity-60 animate-bounce" style={{ animationDuration: '3s' }} />
-        <div className="absolute top-40 left-[10%] w-3 h-3 rounded-full bg-gradient-to-br from-pink-400 to-rose-400 opacity-40 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-        <div className="absolute bottom-32 right-[20%] w-2 h-2 rounded-full bg-gradient-to-br from-violet-400 to-indigo-400 opacity-50 animate-bounce" style={{ animationDuration: '5s', animationDelay: '0.5s' }} />
-      </div>
-
+      {/* Content only - background is shared at page level */}
       <div className="relative z-10 text-center max-w-5xl mx-auto">
         {/* Badge */}
         <div 
@@ -117,9 +103,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
     </section>
   );
 }

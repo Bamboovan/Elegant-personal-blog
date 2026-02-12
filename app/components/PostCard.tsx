@@ -23,28 +23,21 @@ export function PostCard({ post, index = 0 }: PostCardProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link href={`/posts/${post.slug}`} className="block">
-        <div className="card-modern p-6 md:p-8 relative overflow-hidden">
-          {/* Hover gradient overlay */}
+        <div className="glass-card rounded-2xl p-6 md:p-8 relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-accent/5 hover:border-accent/30">
+          {/* Hover glow effect */}
           <div 
-            className={`absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent transition-opacity duration-500 ${
-              isHovered ? 'opacity-100' : 'opacity-0'
-            }`} 
-          />
-          
-          {/* Accent line on hover */}
-          <div 
-            className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-accent via-purple-500 to-pink-500 transition-all duration-500 ${
+            className={`absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-purple-500/5 transition-opacity duration-500 ${
               isHovered ? 'opacity-100' : 'opacity-0'
             }`} 
           />
 
           <div className="relative z-10">
-            {/* Top row: Date, Reading time, Arrow */}
+            {/* Top row: Date and reading time */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4" />
-                  <time dateTime={post.date} className="font-medium">
+                  <Calendar className="w-3.5 h-3.5 opacity-60" />
+                  <time dateTime={post.date}>
                     {format(new Date(post.date), "yyyy年M月d日", { locale: zhCN })}
                   </time>
                 </div>
@@ -52,7 +45,7 @@ export function PostCard({ post, index = 0 }: PostCardProps) {
                   <>
                     <span className="text-border">·</span>
                     <div className="flex items-center gap-1.5">
-                      <Clock className="w-4 h-4" />
+                      <Clock className="w-3.5 h-3.5 opacity-60" />
                       <span>{post.readingTime} 分钟阅读</span>
                     </div>
                   </>
@@ -61,18 +54,18 @@ export function PostCard({ post, index = 0 }: PostCardProps) {
               
               {/* Arrow indicator */}
               <div 
-                className={`w-10 h-10 rounded-full border border-border flex items-center justify-center transition-all duration-300 ${
+                className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
                   isHovered 
-                    ? 'bg-accent border-accent text-accent-foreground translate-x-1 -translate-y-1' 
-                    : 'bg-transparent text-muted-foreground'
+                    ? 'border-accent bg-accent text-white translate-x-0.5 -translate-y-0.5' 
+                    : 'border-white/20 text-muted-foreground'
                 }`}
               >
-                <ArrowUpRight className={`w-5 h-5 transition-transform duration-300 ${isHovered ? 'rotate-0' : '-rotate-45'}`} />
+                <ArrowUpRight className={`w-4 h-4 transition-transform duration-300 ${isHovered ? 'rotate-0' : '-rotate-45'}`} />
               </div>
             </div>
 
             {/* Title */}
-            <h2 className={`text-xl md:text-2xl font-bold mb-3 leading-tight transition-colors duration-300 ${
+            <h2 className={`text-xl md:text-2xl font-semibold mb-3 leading-snug transition-colors duration-300 ${
               isHovered ? 'text-accent' : 'text-foreground'
             }`}>
               {post.title}
@@ -91,7 +84,7 @@ export function PostCard({ post, index = 0 }: PostCardProps) {
                 {post.tags.map((tag) => (
                   <span 
                     key={tag}
-                    className="badge"
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/30 dark:bg-white/5 text-muted-foreground border border-white/20 dark:border-white/10"
                   >
                     {tag}
                   </span>
