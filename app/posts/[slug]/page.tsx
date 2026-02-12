@@ -4,8 +4,8 @@ import { format } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import { getPostBySlug, getPostHtml, getAllPosts } from "@/lib/posts";
 import Link from "next/link";
-import { Calendar, Clock } from "lucide-react";
-import { DecorativeDivider } from "@/app/components/DecorativeDivider";
+import { Calendar, Clock, ArrowLeft, FileText, Hash } from "lucide-react";
+import { ShareButton } from "./ShareButton";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -41,9 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// 为第一个段落添加 drop-cap 类
 function addDropCap(html: string): string {
-  // 找到第一个 <p> 标签并添加 drop-cap 类
   return html.replace(/<p>/, '<p class="drop-cap">');
 }
 
@@ -59,63 +57,95 @@ export default async function PostPage({ params }: Props) {
   const contentHtml = addDropCap(rawHtml);
 
   return (
-    <article className="max-w-3xl mx-auto px-6 py-16 animate-fade-in-up">
-      <header className="mb-12">
-        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
-          <div className="flex items-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5 opacity-60" />
-            <time dateTime={post.date}>
-              {format(new Date(post.date), "yyyy年M月d日", { locale: zhCN })}
-            </time>
+    <article className="max-w-3xl mx-auto px-6 py-12 md:py-16 animate-fade-in-up">
+      {/* Back link */}
+      <div className="mb-8">
+        <Link 
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
+        >
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span>返回首页</span>
+        </Link>
+      </div>
+
+      {/* Article Header Card */}
+      <div className="card-modern p-8 md:p-12 mb-12 relative overflow-hidden">
+        {/* Gradient accent */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-purple-500 to-pink-500" />
+        
+        <div className="relative z-10">
+          {/* Meta info */}
+          <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-6">
+            <div className="flex items-center gap-1.5">
+              <Calendar className="w-4 h-4" />
+              <time dateTime={post.date} className="font-medium">
+                {format(new Date(post.date), "yyyy年M月d日", { locale: zhCN })}
+              </time>
+            </div>
+            {post.readingTime && (
+              <>
+                <span className="text-border">·</span>
+                <div className="flex items-center gap-1.5">
+                  <Clock className="w-4 h-4" />
+                  <span>{post.readingTime} 分钟阅读</span>
+                </div>
+              </>
+            )}
           </div>
-          {post.readingTime && (
-            <>
-              <span className="text-border">·</span>
-              <div className="flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 opacity-60" />
-                <span>{post.readingTime} 分钟阅读</span>
-              </div>
-            </>
+
+          {/* Title */}
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
+            {post.title}
+          </h1>
+
+          {/* Excerpt */}
+          {post.excerpt && (
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              {post.excerpt}
+            </p>
+          )}
+
+          {/* Tags */}
+          {post.tags && post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/tags/${tag}`}
+                  className="badge hover:bg-accent hover:text-accent-foreground"
+                >
+                  <Hash className="w-3 h-3 mr-1" />
+                  {tag}
+                </Link>
+              ))}
+            </div>
           )}
         </div>
-        
-        <h1 className="font-serif text-4xl md:text-5xl font-normal text-foreground mb-6 leading-tight">
-          {post.title}
-        </h1>
-        
-        {post.tags && post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <Link
-                key={tag}
-                href={`/tags/${tag}`}
-                className="tag-elegant"
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
-        )}
-      </header>
+      </div>
 
-      <DecorativeDivider symbol="waves" className="mb-12" />
-
+      {/* Article Content */}
       <div 
-        className="prose max-w-none"
+        className="prose max-w-none mb-16"
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
 
-      <DecorativeDivider symbol="flourish" className="mt-16 mb-8" />
-
-      <footer className="flex items-center justify-between">
-        <Link 
-          href="/"
-          className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
-        >
-          <span>←</span>
-          <span>返回文章列表</span>
-        </Link>
-      </footer>
+      {/* Article Footer */}
+      <div className="border-t border-border pt-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-purple-500 flex items-center justify-center text-white font-bold text-lg">
+              ZF
+            </div>
+            <div>
+              <p className="font-medium text-foreground">朱凡</p>
+              <p className="text-sm text-muted-foreground">分享设计、技术与生活的思考</p>
+            </div>
+          </div>
+          
+          <ShareButton title={post.title} />
+        </div>
+      </div>
     </article>
   );
 }
