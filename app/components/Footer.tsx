@@ -94,7 +94,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground flex items-center gap-1">
-            © {currentYear} Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" /> by ZF
+            © {currentYear} Made with by ZF
           </p>
           <p className="text-xs text-muted-foreground/60">
             Built with Next.js & Tailwind CSS
