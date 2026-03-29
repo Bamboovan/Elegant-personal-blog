@@ -40,7 +40,7 @@ export function ArchiveContent({
             awards={awards.awards}
           />
         )}
-        {activeTab === "contact" && <ContactTerminal profile={profile} />}
+        {activeTab === "interact" && <ContactTerminal profile={profile} />}
       </WindowContent>
     </div>
   );

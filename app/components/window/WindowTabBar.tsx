@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-type TabId = "timeline" | "projects" | "research" | "awards" | "contact";
+type TabId = "timeline" | "projects" | "research" | "awards" | "interact";
 
 interface WindowTabBarProps {
   activeTab: TabId;
@@ -21,7 +21,7 @@ const TABS: Tab[] = [
   { id: "projects", label: "[PROJECTS]", icon: "DIR" },
   { id: "research", label: "[RESEARCH]", icon: "DATA" },
   { id: "awards", label: "[AWARDS]", icon: "STAR" },
-  { id: "contact", label: "[CONTACT]", icon: "COMM" },
+  { id: "interact", label: "[INTERACT]", icon: "COMM" },
 ];
 
 export function WindowTabBar({
