@@ -1,0 +1,95 @@
+{
+  "files": [
+    {
+      "id": "portfolio-v2",
+      "name": "portfolio-v2",
+      "type": "FOLDER",
+      "ext": ".sys",
+      "size": "2.5MB",
+      "modified": "2025-03-29",
+      "description": "赛博朋克风格个人档案终端系统",
+      "tech": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS 4"],
+      "status": "ACTIVE",
+      "icon": "terminal",
+      "links": {
+        "github": "https://github.com/Bamboovan/portfolio-v2",
+        "demo": "https://zhufan.me"
+      }
+    },
+    {
+      "id": "distributed-scheduler",
+      "name": "distributed-scheduler",
+      "type": "FOLDER",
+      "ext": ".go",
+      "size": "156KB",
+      "modified": "2025-01-15",
+      "description": "分布式任务调度系统（毕业设计）",
+      "tech": ["Go", "gRPC", "etcd", "PostgreSQL"],
+      "status": "COMPLETED",
+      "icon": "server",
+      "links": {
+        "github": "https://github.com/Bamboovan/distributed-scheduler"
+      }
+    },
+    {
+      "id": "tiny-kv",
+      "name": "tiny-kv",
+      "type": "FOLDER",
+      "ext": ".rs",
+      "size": "89KB",
+      "modified": "2024-11-20",
+      "description": "基于 Raft 共识算法的分布式 KV 存储",
+      "tech": ["Rust", "Raft", "Tokio"],
+      "status": "ACTIVE",
+      "icon": "database",
+      "links": {
+        "github": "https://github.com/Bamboovan/tiny-kv"
+      }
+    },
+    {
+      "id": "go-cache",
+      "name": "go-cache",
+      "type": "FILE",
+      "ext": ".go",
+      "size": "12KB",
+      "modified": "2024-08-10",
+      "description": "Go 语言实现的本地缓存库",
+      "tech": ["Go", "LRU", "Cache"],
+      "status": "COMPLETED",
+      "icon": "package",
+      "links": {
+        "github": "https://github.com/Bamboovan/go-cache"
+      }
+    },
+    {
+      "id": "web-crawler",
+      "name": "web-crawler",
+      "type": "FOLDER",
+      "ext": ".py",
+      "size": "45KB",
+      "modified": "2024-05-01",
+      "description": "分布式网络爬虫系统",
+      "tech": ["Python", "Scrapy", "Redis", "RabbitMQ"],
+      "status": "ARCHIVED",
+      "icon": "spider",
+      "links": {
+        "github": "https://github.com/Bamboovan/web-crawler"
+      }
+    },
+    {
+      "id": "chat-app",
+      "name": "chat-app",
+      "type": "FOLDER",
+      "ext": ".ts",
+      "size": "78KB",
+      "modified": "2024-02-15",
+      "description": "实时聊天应用（WebSocket 实践）",
+      "tech": ["React", "Node.js", "Socket.io", "MongoDB"],
+      "status": "ARCHIVED",
+      "icon": "message",
+      "links": {
+        "github": "https://github.com/Bamboovan/chat-app"
+      }
+    }
+  ]
+}

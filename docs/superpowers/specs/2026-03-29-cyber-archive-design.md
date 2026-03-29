@@ -1,0 +1,504 @@
+# 博客重构为赛博档案终端 - 设计文档
+
+## 概述
+
+将现有博客站点重构为赛博朋克风格的个人档案终端。设计定位为「张扬、技术感、未来主义」的数字化身份展示。采用复古未来主义（Retro-Futurism）美学，模拟 1980s-2040s 跨越感的加密档案终端。
+
+**核心理念**：用户不是在"浏览网页"，而是在**访问一个加密的个人档案终端**。
+
+## 目标
+
+- 展示个人身份、经历、项目、研究方向
+- 数据驱动结构，便于后续增减内容
+- 视觉风格：赛博朋克终端 + 复古计算美学
+- 高组件化、低耦合的架构设计
+- 大量使用 SVG 创造独特视觉风格
+
+---
+
+## 页面架构（单页应用）
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  CRT Overlay (扫描线效果)                                    │
+├─────────────────────────────────────────────────────────────┤
+│  StatusBar (固定顶部状态栏)                                  │
+│  [LOGO]  ZHU.FAN::ARCHIVE v2.5          [TIME] [SYS.STATUS] │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  HeroTerminal                                       │   │
+│  │  > 系统初始化完成                                   │   │
+│  │  > 身份验证：朱凡                                   │   │
+│  │  > 角色：研究生 · 软件工程                          │   │
+│  │  > 状态：actively seeking opportunities             │   │
+│  │  > _ (闪烁光标)                                     │   │
+│  │                                                     │   │
+│  │  [十六进制代码雨背景 - SVG]                         │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  WindowTabBar (窗口标签导航)                        │   │
+│  │  [TIMELINE] [PROJECTS] [RESEARCH] [CONTACT]         │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  WindowFrame (主内容窗口)                           │   │
+│  │  ┌─ WindowTitleBar ─────────────────────────────┐   │   │
+│  │  │ ○ ○ ○ timeline.log                    [−] [□] [×] │   │
+│  │  └───────────────────────────────────────────────┘   │   │
+│  │  ┌─ WindowContent ──────────────────────────────┐    │   │
+│  │  │                                              │    │   │
+│  │  │  TimelineLog / ProjectBrowser /              │    │   │
+│  │  │  ResearchPanel / ContactTerminal             │    │   │
+│  │  │                                              │    │   │
+│  │  └──────────────────────────────────────────────┘    │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 视觉设计系统
+
+### 色彩系统
+
+```css
+/* 主色调 */
+--neon-cyan: #00ff9f;           /* 荧光青 - 主强调、成功状态 */
+--neon-magenta: #ff00a0;        /* 洋红 - 次强调、警告 */
+--neon-amber: #ffb000;          /* 琥珀 - 高亮、重要 */
+
+/* 背景色 */
+--bg-primary: #050505;          /* 纯黑背景 */
+--bg-terminal: #0a0a0f;         /* 终端窗口背景 */
+--bg-panel: #0f0f14;            /* 面板背景 */
+--bg-hover: #1a1a20;            /* 悬停背景 */
+
+/* 文字色 */
+--text-primary: #e0e0e0;        /* 主文字 - 微绿像磷光 */
+--text-secondary: #909090;      /* 次文字 */
+--text-dim: #606060;            /* 暗淡文字 */
+--text-muted: #404040;          /* 几乎隐藏 */
+
+/* 边框与分隔 */
+--border-bright: rgba(0, 255, 159, 0.3);   /* 高亮边框 */
+--border-normal: rgba(0, 255, 159, 0.15);  /* 普通边框 */
+--border-dim: rgba(0, 255, 159, 0.05);     /* 暗淡边框 */
+--grid-line: rgba(0, 255, 159, 0.08);      /* 网格线 */
+```
+
+### 字体系统
+
+```css
+/* 显示/标题 - 等宽终端风格 */
+--font-display: "SF Mono", "JetBrains Mono", "Fira Code", monospace;
+
+/* 正文 - 为可读性妥协 */
+--font-body: "Inter", "SF Pro Display", -apple-system, sans-serif;
+
+/* 字号 */
+--text-xs: 0.75rem;      /* 辅助信息、标签 */
+--text-sm: 0.875rem;     /* 次要内容 */
+--text-base: 1rem;       /* 正文 */
+--text-lg: 1.125rem;     /* 小标题 */
+--text-xl: 1.25rem;      /* 模块标题 */
+--text-2xl: 1.5rem;      /* 窗口标题 */
+--text-3xl: 2rem;        /* 区块标题 */
+--text-4xl: 2.5rem;      /* Hero 文字 */
+```
+
+### 间距系统
+
+```css
+--space-1: 0.25rem;   /* 4px */
+--space-2: 0.5rem;    /* 8px */
+--space-3: 0.75rem;   /* 12px */
+--space-4: 1rem;      /* 16px */
+--space-6: 1.5rem;    /* 24px */
+--space-8: 2rem;      /* 32px */
+--space-12: 3rem;     /* 48px */
+--space-16: 4rem;     /* 64px */
+```
+
+### 特效系统
+
+```css
+/* CRT 扫描线 */
+.crt-overlay {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}
+
+/* 文字阴影 - 荧光效果 */
+.text-glow {
+  text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+}
+
+/* 边框发光 */
+.border-glow {
+  box-shadow: 0 0 10px rgba(0, 255, 159, 0.3), inset 0 0 10px rgba(0, 255, 159, 0.05);
+}
+
+/* 故障效果 */
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+}
+```
+
+---
+
+## 组件架构
+
+### 核心原则
+
+1. **单一职责**：每个组件只做一件事
+2. **props 驱动**：通过 props 控制外观和行为，而非内部状态
+3. **组合优先**：复杂组件由简单组件组合而成
+4. **样式隔离**：使用 CSS Modules 或 CSS-in-JS 避免样式污染
+
+### 组件清单
+
+#### 1. 全局效果组件
+
+| 组件名 | 功能 | 位置 |
+|--------|------|------|
+| `CRTEffect` | CRT 扫描线覆盖层 | `app/components/effects/CRTEffect.tsx` |
+| `HexRain` | 十六进制代码雨背景 | `app/components/effects/HexRain.tsx` |
+| `GlowText` | 发光文字效果 | `app/components/effects/GlowText.tsx` |
+| `GlitchText` | 故障文字效果 | `app/components/effects/GlitchText.tsx` |
+
+#### 2. 窗口系统组件
+
+| 组件名 | 功能 | 位置 |
+|--------|------|------|
+| `StatusBar` | 顶部状态栏 | `app/components/window/StatusBar.tsx` |
+| `WindowFrame` | 窗口外框容器 | `app/components/window/WindowFrame.tsx` |
+| `WindowTitleBar` | 窗口标题栏 | `app/components/window/WindowTitleBar.tsx` |
+| `WindowTabBar` | 窗口标签导航 | `app/components/window/WindowTabBar.tsx` |
+| `WindowContent` | 窗口内容区 | `app/components/window/WindowContent.tsx` |
+
+#### 3. 内容组件
+
+| 组件名 | 功能 | 位置 |
+|--------|------|------|
+| `HeroTerminal` | 终端启动 Hero | `app/components/sections/HeroTerminal.tsx` |
+| `TypewriterText` | 打字机文字效果 | `app/components/TypewriterText.tsx` |
+| `TimelineLog` | 系统日志形式时间线 | `app/components/sections/TimelineLog.tsx` |
+| `ProjectFileBrowser` | 文件浏览器形式项目展示 | `app/components/sections/ProjectFileBrowser.tsx` |
+| `ResearchPanel` | 数据面板形式研究方向 | `app/components/sections/ResearchPanel.tsx` |
+| `ContactTerminal` | 终端形式联系方式 | `app/components/sections/ContactTerminal.tsx` |
+
+#### 4. SVG 图形库
+
+| 组件名 | 功能 | 位置 |
+|--------|------|------|
+| `PixelIcon` | 像素风格图标 | `app/components/svg/PixelIcon.tsx` |
+| `FileIcon` | 文件类型图标 | `app/components/svg/FileIcon.tsx` |
+| `StatusIndicators` | 状态指示器 | `app/components/svg/StatusIndicators.tsx` |
+| `DecorativeLines` | 装饰线条 | `app/components/svg/DecorativeLines.tsx` |
+| `HexGrid` | 六边形网格 | `app/components/svg/HexGrid.tsx` |
+
+---
+
+## 数据结构
+
+所有内容通过 JSON 配置文件管理，位于 `content/` 目录：
+
+### profile.json - 个人基本信息
+
+```json
+{
+  "name": "朱凡",
+  "handle": "zhufan",
+  "title": "研究生 · 软件工程",
+  "bio": "专注系统架构与分布式计算研究",
+  "status": "actively seeking research opportunities",
+  "location": "成都 · 四川大学",
+  "email": "xxx@qq.com",
+  "social": {
+    "github": "https://github.com/Bamboovan",
+    "scholar": "..."
+  },
+  "quickStats": [
+    { "label": "PROJECTS", "value": "3" },
+    { "label": "PAPERS", "value": "0" },
+    { "label": "YEARS", "value": "4+" }
+  ]
+}
+```
+
+### timeline.json - 系统日志时间线
+
+```json
+{
+  "logs": [
+    {
+      "timestamp": "2025-09-01",
+      "type": "EVENT",
+      "category": "EDUCATION",
+      "title": "研究生入学",
+      "institution": "四川大学",
+      "major": "软件工程",
+      "level": "master",
+      "details": ["研究方向：分布式系统", "导师：xxx教授"]
+    },
+    {
+      "timestamp": "2025-06-01",
+      "type": "PROJECT",
+      "category": "DEV",
+      "title": "Portfolio v2 重构",
+      "tech": ["Next.js", "TypeScript", "Tailwind"],
+      "link": "https://github.com/...",
+      "description": "赛博朋克风格个人网站"
+    },
+    {
+      "timestamp": "2021-09-01",
+      "type": "EVENT",
+      "category": "EDUCATION",
+      "title": "本科入学",
+      "institution": "四川大学",
+      "major": "软件工程",
+      "level": "bachelor",
+      "details": ["GPA: 3.8/4.0", "ACM 竞赛银牌"]
+    }
+  ]
+}
+```
+
+**log.type 类型**：
+- `EVENT`：重要事件（入学、毕业等）
+- `PROJECT`：项目经历
+- `AWARD`：荣誉奖项
+- `PUBLICATION`：论文发表
+- `CERTIFICATION`：证书获得
+
+### projects.json - 项目文件
+
+```json
+{
+  "files": [
+    {
+      "id": "portfolio-v2",
+      "name": "portfolio-v2",
+      "type": "FOLDER",
+      "ext": ".sys",
+      "size": "2.5MB",
+      "modified": "2025-03-29",
+      "description": "赛博朋克风格个人网站系统",
+      "tech": ["Next.js 16", "React 19", "TypeScript", "Tailwind 4"],
+      "links": {
+        "github": "https://github.com/...",
+        "demo": "https://..."
+      },
+      "status": "ACTIVE",
+      "icon": "terminal"
+    }
+  ]
+}
+```
+
+### research.json - 研究数据
+
+```json
+{
+  "interests": [
+    {
+      "name": "分布式系统",
+      "level": 85,
+      "description": "一致性协议、分布式事务"
+    },
+    {
+      "name": "系统架构",
+      "level": 70,
+      "description": "微服务、事件驱动架构"
+    }
+  ],
+  "papers": [
+    {
+      "title": "论文标题",
+      "status": "in-progress",
+      "venue": "目标期刊/会议",
+      "year": 2025,
+      "abstract": "..."
+    }
+  ],
+  "skills": [
+    { "name": "Go", "level": 90, "category": "LANGUAGE" },
+    { "name": "Rust", "level": 65, "category": "LANGUAGE" },
+    { "name": "Kubernetes", "level": 75, "category": "TOOL" }
+  ]
+}
+```
+
+---
+
+## 文件结构
+
+```
+app/
+├── components/
+│   ├── effects/              # 视觉效果组件
+│   │   ├── CRTEffect.tsx
+│   │   ├── HexRain.tsx
+│   │   ├── GlowText.tsx
+│   │   └── GlitchText.tsx
+│   ├── window/               # 窗口系统组件
+│   │   ├── StatusBar.tsx
+│   │   ├── WindowFrame.tsx
+│   │   ├── WindowTitleBar.tsx
+│   │   ├── WindowTabBar.tsx
+│   │   └── WindowContent.tsx
+│   ├── sections/             # 页面区块组件
+│   │   ├── HeroTerminal.tsx
+│   │   ├── TimelineLog.tsx
+│   │   ├── ProjectFileBrowser.tsx
+│   │   ├── ResearchPanel.tsx
+│   │   └── ContactTerminal.tsx
+│   ├── svg/                  # SVG 图形库
+│   │   ├── PixelIcon.tsx
+│   │   ├── FileIcon.tsx
+│   │   ├── StatusIndicators.tsx
+│   │   ├── DecorativeLines.tsx
+│   │   └── HexGrid.tsx
+│   └── TypewriterText.tsx    # 打字机效果
+├── hooks/
+│   ├── useTypewriter.ts      # 打字机逻辑
+│   └── useGlitch.ts          # 故障效果逻辑
+├── lib/
+│   ├── profile.ts            # 读取 profile.json
+│   ├── timeline.ts           # 读取 timeline.json
+│   ├── projects.ts           # 读取 projects.json
+│   └── research.ts           # 读取 research.json
+├── styles/
+│   └── cyber-theme.css       # 赛博主题 CSS 变量
+├── page.tsx                  # 主页面
+└── layout.tsx                # 根布局
+
+content/
+├── profile.json
+├── timeline.json
+├── projects.json
+└── research.json
+
+public/
+└── fonts/                    # 本地字体（如需）
+```
+
+---
+
+## 实现优先级
+
+### Phase 1: 基础架构
+1. 创建设计系统（CSS 变量、字体）
+2. 实现 CRT 效果覆盖层
+3. 创建窗口系统基础组件
+
+### Phase 2: Hero 与导航
+4. 实现 HeroTerminal 打字机效果
+5. 实现十六进制代码雨背景（SVG）
+6. 实现 WindowTabBar 导航
+
+### Phase 3: 内容区域
+7. 实现 TimelineLog 系统日志
+8. 实现 ProjectFileBrowser 文件浏览器
+9. 实现 ResearchPanel 数据面板
+10. 实现 ContactTerminal 联系终端
+
+### Phase 4: 完善与优化
+11. 创建 SVG 图形库（图标、装饰元素）
+12. 添加交互效果（hover、glitch）
+13. 整合主页面
+14. 清理旧代码（文章系统）
+
+---
+
+## 关键技术实现
+
+### 打字机效果
+
+```typescript
+// hooks/useTypewriter.ts
+export function useTypewriter(text: string, speed: number = 50) {
+  const [displayText, setDisplayText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index < text.length) {
+        setDisplayText(text.slice(0, index + 1));
+        index++;
+      } else {
+        setIsComplete(true);
+        clearInterval(timer);
+      }
+    }, speed);
+
+    return () => clearInterval(timer);
+  }, [text, speed]);
+
+  return { displayText, isComplete };
+}
+```
+
+### 十六进制代码雨（SVG）
+
+```typescript
+// 使用 SVG text 元素渲染垂直下落的十六进制字符
+// 每个列为一个 SVG text 元素，通过 CSS animation 控制位置
+// 使用 mask 实现渐隐效果
+```
+
+### 窗口拖动（可选增强）
+
+```typescript
+// 使用 framer-motion 或原生 drag 事件
+// 限制在视口内，记录位置到 localStorage
+```
+
+---
+
+## 性能考虑
+
+1. **CRT 扫描线**：使用 `pointer-events: none` 避免阻挡交互
+2. **代码雨背景**：限制字符数量，使用 RAF 而非 setInterval
+3. **SVG 图标**：内联小型 SVG，避免额外 HTTP 请求
+4. **字体**：使用系统等宽字体，或按需加载 JetBrains Mono
+5. **动画**：优先使用 CSS animation，减少 JS 动画
+
+---
+
+## 响应式策略
+
+**桌面端（>1024px）**：
+- 完整窗口系统，支持多列布局
+- 所有动画效果启用
+
+**平板端（768px-1024px）**：
+- 窗口系统简化为单窗口
+- 保持核心视觉效果
+
+**移动端（<768px）**：
+- 窗口边框简化为纯边框
+- 代码雨背景禁用或简化
+- 字体大小调整
+
+---
+
+## 无障碍考虑
+
+1. 提供 `prefers-reduced-motion` 媒体查询支持
+2. 确保文字对比度符合 WCAG 标准
+3. 键盘导航支持
+4. 屏幕阅读器友好的标签

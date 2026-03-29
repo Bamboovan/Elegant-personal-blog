@@ -1,0 +1,68 @@
+{
+  "entries": [
+    {
+      "timestamp": "2025-09-01 00:00:00",
+      "type": "EVENT",
+      "category": "EDUCATION",
+      "title": "研究生入学",
+      "description": "四川大学 · 软件工程专业",
+      "details": ["研究方向：分布式系统", "导师：xxx教授"]
+    },
+    {
+      "timestamp": "2025-06-15 00:00:00",
+      "type": "PROJECT",
+      "category": "DEV",
+      "title": "Portfolio v2 重构启动",
+      "description": "赛博朋克风格个人档案终端",
+      "details": ["Next.js 16", "React 19", "Tailwind CSS 4"]
+    },
+    {
+      "timestamp": "2025-03-01 00:00:00",
+      "type": "AWARD",
+      "category": "ACHIEVEMENT",
+      "title": "优秀本科生毕业论文",
+      "description": "校级优秀毕业论文评选",
+      "details": ["论文题目：基于微服务的分布式系统设计与实现"]
+    },
+    {
+      "timestamp": "2024-09-01 00:00:00",
+      "type": "EVENT",
+      "category": "EDUCATION",
+      "title": "本科毕业设计",
+      "description": "开始本科毕业设计工作",
+      "details": ["选题：分布式任务调度系统", "技术栈：Go + gRPC + etcd"]
+    },
+    {
+      "timestamp": "2024-06-15 00:00:00",
+      "type": "PROJECT",
+      "category": "DEV",
+      "title": "开源项目首次贡献",
+      "description": "向知名开源项目提交 PR 并被合并",
+      "details": ["项目：xxx/xxx", "贡献：修复并发安全问题"]
+    },
+    {
+      "timestamp": "2023-09-01 00:00:00",
+      "type": "EVENT",
+      "category": "EDUCATION",
+      "title": "本科三年级",
+      "description": "深入学习系统编程和分布式系统",
+      "details": ["课程：操作系统、计算机网络、数据库系统"]
+    },
+    {
+      "timestamp": "2022-09-01 00:00:00",
+      "type": "EVENT",
+      "category": "EDUCATION",
+      "title": "本科二年级",
+      "description": "开始接触算法竞赛和开源社区",
+      "details": ["加入 ACM 程序设计竞赛队", "开始维护技术博客"]
+    },
+    {
+      "timestamp": "2021-09-01 00:00:00",
+      "type": "EVENT",
+      "category": "EDUCATION",
+      "title": "本科入学",
+      "description": "四川大学 · 软件工程专业",
+      "details": ["GPA: 3.7/4.0", "获得新生奖学金"]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "SUBJECT-8472",
+  "name": "朱凡",
+  "alias": "Bamboovan",
+  "role": "软件工程研究生 · 分布式系统方向",
+  "status": "ONLINE",
+  "location": "成都, CN",
+  "clearance": "LEVEL-3",
+  "avatar": "/avatar.png",
+  "bio": [
+    "> 正在学习如何将想法转化为代码",
+    "> 对系统架构和分布式系统充满热情",
+    "> 热爱开源，相信技术可以改变世界",
+    "> 保持好奇，持续探索"
+  ],
+  "stats": {
+    "projectsCompleted": 8,
+    "linesOfCode": "50000+",
+    "coffeeConsumed": "9999+",
+    "uptime": "4年"
+  },
+  "systemInfo": {
+    "os": "Neural-Link OS v4.2",
+    "kernel": "5.15.0-cyber",
+    "shell": "zsh 5.9",
+    "uptime": "1460天 8小时 32分钟"
+  },
+  "social": {
+    "github": "https://github.com/Bamboovan",
+    "email": "2199591086@qq.com"
+  },
+  "skills": [
+    { "name": "Go", "level": 85, "category": "LANGUAGE" },
+    { "name": "TypeScript", "level": 80, "category": "LANGUAGE" },
+    { "name": "Python", "level": 75, "category": "LANGUAGE" },
+    { "name": "Rust", "level": 60, "category": "LANGUAGE" },
+    { "name": "React", "level": 85, "category": "FRAMEWORK" },
+    { "name": "Next.js", "level": 80, "category": "FRAMEWORK" },
+    { "name": "Kubernetes", "level": 70, "category": "TOOL" },
+    { "name": "Docker", "level": 75, "category": "TOOL" }
+  ]
+}
