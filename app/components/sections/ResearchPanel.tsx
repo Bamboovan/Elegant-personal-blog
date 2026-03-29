@@ -1,76 +1,36 @@
 "use client";
 
-import { ResearchInterest, Paper, Certification } from "@/lib/data";
+import { ResearchProject } from "@/lib/data";
 import { cn } from "@/lib/utils";
-import { ExternalLink } from "lucide-react";
 
 interface ResearchPanelProps {
-  interests: ResearchInterest[];
-  papers: Paper[];
-  certifications: Certification[];
+  projects: ResearchProject[];
 }
 
-export function ResearchPanel({
-  interests,
-  papers,
-  certifications,
-}: ResearchPanelProps) {
+export function ResearchPanel({ projects }: ResearchPanelProps) {
   return (
     <div className="p-6 space-y-8">
-      {/* Research Interests */}
       <section>
         <div className="text-[#606060] text-xs mb-4 flex items-center gap-2">
           <span className="text-neon-cyan">●</span>
-          {"// RESEARCH INTERESTS"}
+          {"// RESEARCH PROJECTS"}
         </div>
         <div className="space-y-4">
-          {interests.map((interest) => (
-            <ResearchCard key={interest.id} interest={interest} />
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </section>
-
-      {/* Papers */}
-      {papers.length > 0 && (
-        <section>
-          <div className="text-[#606060] text-xs mb-4 flex items-center gap-2">
-            <span className="text-neon-magenta">●</span>
-            {"// PUBLICATIONS"}
-          </div>
-          <div className="space-y-3">
-            {papers.map((paper, index) => (
-              <PaperCard key={index} paper={paper} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Certifications */}
-      {certifications.length > 0 && (
-        <section>
-          <div className="text-[#606060] text-xs mb-4 flex items-center gap-2">
-            <span className="text-neon-amber">●</span>
-            {"// CERTIFICATIONS"}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {certifications.map((cert, index) => (
-              <CertCard key={index} cert={cert} />
-            ))}
-          </div>
-        </section>
-      )}
     </div>
   );
 }
 
-function ResearchCard({ interest }: { interest: ResearchInterest }) {
+function ProjectCard({ project }: { project: ResearchProject }) {
   const statusColors = {
     ACTIVE: "border-neon-cyan text-neon-cyan",
-    PAUSED: "border-neon-amber text-neon-amber",
     COMPLETED: "border-neon-magenta text-neon-magenta",
+    PAUSED: "border-neon-amber text-neon-amber",
   };
-
-  const progressPercent = (interest.level / interest.maxLevel) * 100;
 
   return (
     <div
@@ -83,55 +43,44 @@ function ResearchCard({ interest }: { interest: ResearchInterest }) {
       <div className="flex justify-between items-start mb-3">
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="text-neon-cyan font-mono text-base">{interest.name}</h3>
-            {interest.link && (
+            <h3 className="text-neon-cyan font-mono text-base">{project.title}</h3>
+            {project.link && (
               <a
-                href={interest.link}
+                href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1 text-[#404040] hover:text-neon-cyan transition-colors"
                 onClick={(e) => e.stopPropagation()}
               >
-                <ExternalLink className="w-3.5 h-3.5" />
+                <ExternalLinkIcon className="w-3.5 h-3.5" />
               </a>
             )}
           </div>
-          <p className="text-[#606060] text-sm mt-1">{interest.description}</p>
+          <div className="flex items-center gap-3 mt-1 text-xs text-[#606060]">
+            <span>{project.type}</span>
+            <span>•</span>
+            <span>{project.year}</span>
+          </div>
         </div>
         <span
           className={cn(
             "px-2 py-1 text-xs font-mono border",
-            statusColors[interest.status]
+            statusColors[project.status]
           )}
         >
-          {interest.status}
+          {project.status}
         </span>
       </div>
 
-      {/* Progress bar */}
-      <div className="mt-4">
-        <div className="flex justify-between text-xs text-[#606060] mb-1 font-mono">
-          <span>MASTERY LEVEL</span>
-          <span>
-            {interest.level}/{interest.maxLevel}
-          </span>
-        </div>
-        <div className="h-2 bg-[#1a1a1a] border border-[rgba(0,255,159,0.2)]">
-          <div
-            className="h-full bg-gradient-to-r from-neon-cyan to-neon-magenta transition-all duration-500"
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
-      </div>
+      <p className="text-[#909090] text-sm mt-2">{project.description}</p>
 
-      {/* Tags */}
       <div className="flex flex-wrap gap-2 mt-4">
-        {interest.tags.map((tag) => (
+        {project.tags.map((tag) => (
           <span
             key={tag}
-            className="text-xs text-neon-amber font-mono"
+            className="text-xs px-2 py-0.5 border border-[rgba(0,255,159,0.2)] text-neon-amber font-mono"
           >
-            #{tag}
+            {tag}
           </span>
         ))}
       </div>
@@ -139,78 +88,12 @@ function ResearchCard({ interest }: { interest: ResearchInterest }) {
   );
 }
 
-function PaperCard({ paper }: { paper: Paper }) {
+function ExternalLinkIcon({ className }: { className?: string }) {
   return (
-    <div className="p-3 border border-[rgba(255,0,160,0.15)] bg-[rgba(255,0,160,0.02)] hover:border-[rgba(255,0,160,0.3)] transition-colors group">
-      <div className="flex justify-between items-start">
-        <div className="flex items-center gap-2 flex-1">
-          <h4 className="text-[#e0e0e0] font-mono text-sm">{paper.title}</h4>
-          {paper.link && (
-            <a
-              href={paper.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-1 text-[#404040] hover:text-neon-magenta transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          )}
-        </div>
-        <span
-          className={cn(
-            "text-xs px-2 py-0.5 border",
-            paper.status === "published"
-              ? "border-neon-cyan text-neon-cyan"
-              : "border-neon-amber text-neon-amber"
-          )}
-        >
-          {paper.status}
-        </span>
-      </div>
-      <div className="flex items-center gap-4 mt-2 text-xs text-[#606060]">
-        <span>{paper.venue}</span>
-        <span>{paper.year}</span>
-      </div>
-      <p className="text-xs text-[#808080] mt-2 line-clamp-2">
-        {paper.abstract}
-      </p>
-    </div>
-  );
-}
-
-function CertCard({ cert }: { cert: Certification }) {
-  const statusColors = {
-    COMPLETED: "text-neon-cyan border-neon-cyan",
-    "IN-PROGRESS": "text-neon-amber border-neon-amber",
-  };
-
-  return (
-    <div className="p-3 border border-[rgba(255,176,0,0.15)] bg-[rgba(255,176,0,0.02)] hover:border-[rgba(255,176,0,0.3)] transition-colors group">
-      <div className="flex justify-between items-start">
-        <div className="flex items-center gap-2 flex-1">
-          <h4 className="text-[#e0e0e0] font-mono text-sm">{cert.name}</h4>
-          {cert.link && (
-            <a
-              href={cert.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-1 text-[#404040] hover:text-neon-amber transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          )}
-        </div>
-        <span
-          className={cn(
-            "text-xs px-2 py-0.5 border",
-            statusColors[cert.status as keyof typeof statusColors] ||
-              "text-[#606060] border-[#606060]"
-          )}
-        >
-          {cert.status}
-        </span>
-      </div>
-      <p className="text-xs text-[#808080] mt-2">{cert.date}</p>
-    </div>
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
   );
 }

@@ -3,13 +3,14 @@ import { StatusBar } from "./components/window/StatusBar";
 import { WindowFrame } from "./components/window/WindowFrame";
 import { HeroTerminal } from "./components/sections/HeroTerminal";
 import { ArchiveContent } from "./components/ArchiveContent";
-import { getProfile, getTimeline, getProjects, getResearch } from "@/lib/data";
+import { getProfile, getTimeline, getProjects, getResearch, getAwards } from "@/lib/data";
 
 export default function Home() {
   const profile = getProfile();
   const timeline = getTimeline();
   const projects = getProjects();
   const research = getResearch();
+  const awards = getAwards();
 
   return (
     <div className="min-h-screen bg-[#050505] relative">
@@ -31,6 +32,7 @@ export default function Home() {
               timeline={timeline.entries}
               projects={projects.files}
               research={research}
+              awards={awards}
               profile={profile}
             />
           </WindowFrame>

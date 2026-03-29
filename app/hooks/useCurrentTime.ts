@@ -14,15 +14,33 @@ export function useCurrentTime() {
   }, []);
 
   const formatTime = (date: Date) => {
-    return date.toISOString().replace("T", " ").slice(0, 19);
+    // 转换为北京时间 (UTC+8)
+    return date.toLocaleString("zh-CN", {
+      timeZone: "Asia/Shanghai",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    }).replace(/\//g, "-");
   };
 
   const formatTimeOnly = (date: Date) => {
-    return date.toTimeString().slice(0, 8);
+    return date.toLocaleTimeString("zh-CN", {
+      timeZone: "Asia/Shanghai",
+      hour12: false,
+    });
   };
 
   const formatDateOnly = (date: Date) => {
-    return date.toISOString().slice(0, 10);
+    return date.toLocaleDateString("zh-CN", {
+      timeZone: "Asia/Shanghai",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).replace(/\//g, "-");
   };
 
   return {

@@ -6,13 +6,15 @@ import { WindowContent } from "./window/WindowContent";
 import { TimelineLog } from "./sections/TimelineLog";
 import { ProjectFileBrowser } from "./sections/ProjectFileBrowser";
 import { ResearchPanel } from "./sections/ResearchPanel";
+import { AwardsPanel } from "./sections/AwardsPanel";
 import { ContactTerminal } from "./sections/ContactTerminal";
-import { TimelineEntry, ProjectFile, ResearchData, Profile } from "@/lib/data";
+import { TimelineEntry, ProjectFile, ResearchData, AwardsData, Profile } from "@/lib/data";
 
 interface ArchiveContentProps {
   timeline: TimelineEntry[];
   projects: ProjectFile[];
   research: ResearchData;
+  awards: AwardsData;
   profile: Profile;
 }
 
@@ -20,6 +22,7 @@ export function ArchiveContent({
   timeline,
   projects,
   research,
+  awards,
   profile,
 }: ArchiveContentProps) {
   const [activeTab, setActiveTab] = useState<TabId>("timeline");
@@ -30,11 +33,11 @@ export function ArchiveContent({
       <WindowContent>
         {activeTab === "timeline" && <TimelineLog entries={timeline} />}
         {activeTab === "projects" && <ProjectFileBrowser files={projects} />}
-        {activeTab === "research" && (
-          <ResearchPanel
-            interests={research.interests}
-            papers={research.papers}
-            certifications={research.certifications}
+        {activeTab === "research" && <ResearchPanel projects={research.projects} />}
+        {activeTab === "awards" && (
+          <AwardsPanel
+            certifications={awards.certifications}
+            awards={awards.awards}
           />
         )}
         {activeTab === "contact" && <ContactTerminal profile={profile} />}

@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-type TabId = "timeline" | "projects" | "research" | "contact";
+type TabId = "timeline" | "projects" | "research" | "awards" | "contact";
 
 interface WindowTabBarProps {
   activeTab: TabId;
@@ -20,6 +20,7 @@ const TABS: Tab[] = [
   { id: "timeline", label: "[TIMELINE]", icon: "LOG" },
   { id: "projects", label: "[PROJECTS]", icon: "DIR" },
   { id: "research", label: "[RESEARCH]", icon: "DATA" },
+  { id: "awards", label: "[AWARDS]", icon: "STAR" },
   { id: "contact", label: "[CONTACT]", icon: "COMM" },
 ];
 

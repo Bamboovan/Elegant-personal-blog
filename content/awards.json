@@ -1,0 +1,34 @@
+{
+  "awards": [
+    {
+      "id": "1",
+      "title": "优秀学生奖学金",
+      "issuer": "XX大学",
+      "date": "2024",
+      "description": "综合排名前 5%"
+    },
+    {
+      "id": "2",
+      "title": "ACM-ICPC 区域赛铜牌",
+      "issuer": "ACM",
+      "date": "2023",
+      "description": "第 48 届 ACM-ICPC 亚洲区域赛"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "AWS Cloud Practitioner",
+      "issuer": "Amazon Web Services",
+      "date": "2024-12",
+      "status": "COMPLETED",
+      "link": "https://www.credly.com/badges/aws-cloud-practitioner"
+    },
+    {
+      "name": "CKA (Certified Kubernetes Administrator)",
+      "issuer": "CNCF",
+      "date": "2025-06",
+      "status": "IN-PROGRESS",
+      "link": "https://www.cncf.io/certification/cka/"
+    }
+  ]
+}

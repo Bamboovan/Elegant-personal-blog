@@ -71,24 +71,29 @@ export interface ProjectsData {
   files: ProjectFile[];
 }
 
-// Research Types
-export interface ResearchInterest {
+// Research Types - 研究项目
+export interface ResearchProject {
   id: string;
-  name: string;
-  level: number;
-  maxLevel: number;
-  status: "ACTIVE" | "PAUSED" | "COMPLETED";
+  title: string;
+  status: "ACTIVE" | "COMPLETED" | "PAUSED";
+  year: number;
+  type: string;
   description: string;
   tags: string[];
   link?: string;
 }
 
-export interface Paper {
+export interface ResearchData {
+  projects: ResearchProject[];
+}
+
+// Awards Types - 荣誉和证书
+export interface Award {
+  id: string;
   title: string;
-  status: string;
-  venue: string;
-  year: number;
-  abstract: string;
+  issuer: string;
+  date: string;
+  description?: string;
   link?: string;
 }
 
@@ -96,13 +101,12 @@ export interface Certification {
   name: string;
   issuer: string;
   date: string;
-  status: string;
+  status: "COMPLETED" | "IN-PROGRESS";
   link?: string;
 }
 
-export interface ResearchData {
-  interests: ResearchInterest[];
-  papers: Paper[];
+export interface AwardsData {
+  awards: Award[];
   certifications: Certification[];
 }
 
@@ -127,6 +131,12 @@ export function getProjects(): ProjectsData {
 
 export function getResearch(): ResearchData {
   const filePath = path.join(process.cwd(), "content/research.json");
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  return JSON.parse(fileContents);
+}
+
+export function getAwards(): AwardsData {
+  const filePath = path.join(process.cwd(), "content/awards.json");
   const fileContents = fs.readFileSync(filePath, "utf8");
   return JSON.parse(fileContents);
 }
