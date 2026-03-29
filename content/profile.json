@@ -3,13 +3,14 @@
   "name": "朱凡",
   "alias": "Bamboovan",
   "role": "软件工程本科生",
+  "organization": "四川大学-软件学院",
   "status": "ONLINE",
   "location": "成都, CN",
   "clearance": "LEVEL-3",
-  "avatar": "/avatar.png",
+  "avatar": "/avatar.jpg",
   "bio": [
-    "> 正在学习如何将想法转化为代码",
-    "> 对系统架构和分布式系统充满热情",
+    "> 正在准备本科毕业设计以及研究生入学",
+    "> 对人工智能充满热情",
     "> 热爱开源，相信技术可以改变世界",
     "> 保持好奇，持续探索"
   ],

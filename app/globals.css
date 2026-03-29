@@ -462,6 +462,11 @@
 .text-dim { color: var(--text-dim); }
 .text-muted { color: var(--text-muted); }
 
+/* Hover 颜色变体 */
+.hover\:text-neon-cyan:hover { color: var(--neon-cyan); }
+.hover\:text-neon-magenta:hover { color: var(--neon-magenta); }
+.hover\:text-neon-amber:hover { color: var(--neon-amber); }
+
 /* 背景 */
 .bg-terminal { background-color: var(--bg-terminal); }
 .bg-panel { background-color: var(--bg-panel); }

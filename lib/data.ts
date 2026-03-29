@@ -7,6 +7,7 @@ export interface Profile {
   name: string;
   alias: string;
   role: string;
+  organization: string;
   status: "ONLINE" | "BUSY" | "OFFLINE";
   location: string;
   clearance: string;
